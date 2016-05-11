@@ -20,17 +20,8 @@ class HomeController extends BaseController {
 		return View::make('hello');
 	}
 	public function login($user, $password){
-		if( ($user=="abc") && ($password =="123")){
-			$user = "xyz";
-			$password = "987";
-			$response='{user:'.$user.',password:'.$password.'}';
-			//fetch data from db match it against encrypted values above and if match then
-			$response = (object) $response;
 
-				return Response::json($response, 200);
-		}else{
-				return Response::json("Not logged in", 200);
-		}
+		
 	}
 
 }
