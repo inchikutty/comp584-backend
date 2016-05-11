@@ -23,9 +23,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'securewebchat.ceaqim6owgld.us-west-2.rds.amazonaws.com',
-			'database'  => 'comp584',
-			'username'  => 'comp584',
-			'password'  => 'wangcomp584',
+			'database'  => 'usermanagement',
+			'username'  => 'secureweb',
+			'password'  => 'websecure',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
