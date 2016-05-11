@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'webchat-cluster-1.cluster-ceaqim6owgld.us-west-2.rds.amazonaws.com',
-			'database'  => 'comp584',
-			'username'  => 'comp584',
-			'password'  => 'wangcomp584',
+			'host'      => 'securewebchat.ceaqim6owgld.us-west-2.rds.amazonaws.com',
+			'database'  => 'usermanagement',
+			'username'  => 'secureweb',
+			'password'  => 'websecure',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

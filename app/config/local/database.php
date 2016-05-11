@@ -22,7 +22,7 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'webchat-cluster-1.cluster-ceaqim6owgld.us-west-2.rds.amazonaws.com',
+			'host'      => 'securewebchat.ceaqim6owgld.us-west-2.rds.amazonaws.com',
 			'database'  => 'comp584',
 			'username'  => 'comp584',
 			'password'  => 'wangcomp584',
