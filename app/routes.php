@@ -16,3 +16,6 @@ Route::get('/', function()
 	return View::make('hello');
 });
 Route::post('/api/user:{user}/password:{password}',['uses' => 'HomeController@login']);
+Route::post('/api/user:{user}/password:{password}/name:{name}',['uses' => 'HomeController@register']);
+Route::get('/api/en={str}',['uses' => 'HomeController@encrypt']);
+Route::get('/api/de={str}',['uses' => 'HomeController@decrypt']);
