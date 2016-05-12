@@ -57,12 +57,20 @@ class HomeController extends BaseController {
        return Response::json("user exists", 200);
      }
      else {
-       DB::table('users')->insert([
-				'username' => $username,
-			  'password' => $password,
-				'name' => $name
-        ]);
-       return Response::json("user added", 201);
+       DB::table('users')->insertGetId(
+				 array(
+				  'username' => $username,
+			    'password' => $password,
+				  'name' => $name
+			   )
+      );
+			$user = DB::table('users')->select([
+	       'username',
+	       'password',
+	 			'name'
+	     ])->where('username', '=', $username)
+	     ->get();
+       return Response::json($user, 201);
     }
   }
 	public function sendMessage($sender, $receiver, $body){
