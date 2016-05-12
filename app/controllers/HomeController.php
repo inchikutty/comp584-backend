@@ -74,7 +74,7 @@ class HomeController extends BaseController {
 			}
 		}
 
-    if($username == $member){
+    if( $username == $member){
        return Response::json("user exists", 200);
      }
 
@@ -84,14 +84,25 @@ class HomeController extends BaseController {
 			    'password' => Crypt::encrypt($pass),
 				  'name' => Crypt::encrypt($fullname)
 			  ]);
+				//get userid for registered user
        return Response::json($users, 201);
     }
   }
 	public function deleteUsers($str){
-		DB::table('users')->where('username','=',$str)->delete();
+		DB::table('users')->where('id','=',$str)->delete();
 		return Response::json("deleted", 200);
 	}
 
+  public function users($user_id){
+		$users = DB::table('users')->where('id','!=',$user_id)->distinct()->get();
+		foreach ($users as $usr) {
+			$usr->username = Crypt::decrypt( $usr->username );
+			$usr->password = Crypt::decrypt( $usr->password );
+			$usr->name = Crypt::decrypt( $usr->name );
+
+		}
+		return Response::json($users, 200);
+	}
 	public function sendMessage($sender, $receiver, $body){
 		DB::table('messages')->insert([
 			 'sender_id' => $sender,
