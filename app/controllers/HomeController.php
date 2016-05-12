@@ -21,19 +21,39 @@ class HomeController extends BaseController {
 	}
 	public function login( $member, $pass ){
     //function for login
-		$username = Crypt::encrypt($member);
-		$password = Crypt::encrypt($pass);
-		$user = DB::table('users')->select([
+		$password = '';
+		$username = '';
+		$id='';
+		$name ='';
+    $users = DB::table('users')->select([
        'username',
        'password',
-			 'name',
-			 'id'
-     ])
-		 ->where('username', '=', $username)
-		 ->where('password', '=', $password)
-     ->first();
-     if($user){
-        return Response::json($user, 200);
+ 			'name',
+			'id'
+     ])->where('username', '!=', '')
+ 		->distinct()
+ 		->get();
+    $users = (object) $users;
+
+ 		foreach ($users as $user) {
+			$un = Crypt::decrypt($user->username);
+			$pw = Crypt::decrypt($user->password);
+ 			if( ($member == $un) and ($pass == $pw ) ){
+ 				$username = $member;
+ 				$password = $pass;
+				$id = $user->id;
+ 				$name = Crypt::decrypt($user->name);
+ 			}
+ 		}
+     $currentUser = array(
+			'username' => $username,
+			'password' => $password,
+			'name' => $name,
+			'id' => $id
+		);
+
+     if($username == $member){
+        return Response::json($currentUser, 200);
       }
       else {
         return Response::json("user not registered", 200);
@@ -41,38 +61,38 @@ class HomeController extends BaseController {
   }
 	public function register( $member, $pass, $fullname ){
 
-   //function to register user $user is json object
-	 //$date = date("Y-m-d");               // 2015-12-19
-   //$time = date("h:i:s");               // 10:10:16
-	 $username = Crypt::encrypt($member);
-	 $password = Crypt::encrypt($pass);
-	 $name = Crypt::encrypt($fullname);
-   $user = DB::table('users')->select([
-      'username',
-      'password',
-			'name'
-    ])->where('username', '=', $username)
-    ->get();
-    if($user){
+	 $username = null;
+   $users = DB::table('users')->select(
+      'users.username AS username'
+    )->where('username', '!=', '')
+		->distinct()
+		->get();
+     $users = (object) $users;
+	   foreach ($users as $usr) {
+			$un = Crypt::decrypt( $usr->username );
+			if( $member == $un ){
+				$username = $member;
+			}
+		}
+
+    if($username == $member){
        return Response::json("user exists", 200);
      }
+
      else {
-       DB::table('users')->insertGetId(
-				 array(
-				  'username' => $username,
-			    'password' => $password,
-				  'name' => $name
-			   )
-      );
-			$user = DB::table('users')->select([
-	       'username',
-	       'password',
-	 			'name'
-	     ])->where('username', '=', $username)
-	     ->get();
-       return Response::json($user, 201);
+       DB::table('users')->insert([
+				  'username' => Crypt::encrypt($member),
+			    'password' => Crypt::encrypt($pass),
+				  'name' => Crypt::encrypt($fullname)
+			  ]);
+       return Response::json($users, 201);
     }
   }
+	public function deleteUsers($str){
+		DB::table('users')->where('username','=',$str)->delete();
+		return Response::json("deleted", 200);
+	}
+
 	public function sendMessage($sender, $receiver, $body){
 
 	}

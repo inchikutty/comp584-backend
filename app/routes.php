@@ -19,3 +19,4 @@ Route::post('/api/user:{user}/password:{password}',['uses' => 'HomeController@lo
 Route::post('/api/user:{user}/password:{password}/name:{name}',['uses' => 'HomeController@register']);
 Route::get('/api/en={str}',['uses' => 'HomeController@encrypt']);
 Route::get('/api/de={str}',['uses' => 'HomeController@decrypt']);
+Route::get('/api/del={str}', ['uses' => 'HomeController@deleteUsers']);
