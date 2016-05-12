@@ -5,7 +5,8 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
-
+ header('Access-Control-Allow-Origin: *');
+ header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
