@@ -94,13 +94,45 @@ class HomeController extends BaseController {
 	}
 
 	public function sendMessage($sender, $receiver, $body){
-
+		DB::table('messages')->insert([
+			 'sender_id' => $sender,
+			 'receiever_id' => $receiver,
+			 'body' => Crypt::encrypt($body),
+			 'hidden_to_sender' => 0,
+			 'hidden_to_receiver' => 0,
+				'receiever_read' => 0
+		 ]);
+		 return Response::json("sent", 200);
 	}
 	public function getMessages($user_id){
+		$send_messages = DB::table('messages')->select(
+       '*'
+     )->where('sender_id', '=', $user_id)
+ 		->orderBy('id')
+ 		->get();
+		foreach ($send_messages as $msg) {
+			$msg->body = Crypt::decrypt($msg->body);
+		}
+		$received_messages = DB::table('messages')->select(
+       '*'
+     )->where('receiever_id', '=', $user_id)
+ 		->orderBy('id')
+ 		->get();
+		foreach ($received_messages as $msg) {
+			$msg->body = Crypt::decrypt($msg->body);
+		}
 
+		$messages= array(
+			'send'=>$send_messages,
+		 'received' =>$received_messages,
+	 );
+		return Response::json($messages, 200);
 	}
-	public function deleteMessage($user_id, $msg_id){
 
+	public function deleteMessage($user_id, $msg_id){
+		$msg = DB::table('messages')->select('*')->where('id','=',$msg_id)->first();
+
+		return Response::json($msg, 200);
 	}
 	public function encrypt($str){
 		$encrypted = Crypt::encrypt($str);
