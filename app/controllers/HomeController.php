@@ -93,6 +93,17 @@ class HomeController extends BaseController {
 		return Response::json("deleted", 200);
 	}
 
+	public function currentUser($id){
+		$user = DB::table('users')->select('*')->where('id','=',$id)->first();
+		$user = (object)$user;
+		$user->username = Crypt::decrypt( $user->username );
+		$user->password = Crypt::decrypt( $user->password );
+		$user->name = Crypt::decrypt( $user->name );
+
+
+		return Response::json($user, 200);
+	}
+
   public function users($user_id){
 		$users = DB::table('users')->where('id','!=',$user_id)->distinct()->get();
 		foreach ($users as $usr) {

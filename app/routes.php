@@ -21,6 +21,7 @@ Route::post('/api/user:{user}/password:{password}/name:{name}',['uses' => 'HomeC
 Route::post('/api/sender:{sender_id}/receiver:{receiver_id}/msg:{msg}',['uses' => 'HomeController@sendMessage']);
 Route::post('/api/user_id:{user}',['uses' => 'HomeController@getMessages']);
 Route::post('/api/use:{user}',['uses' => 'HomeController@users']);
+Route::post('/api/me:{user}',['uses' => 'HomeController@currentUser']);
 
 //APIS for testing and DB control
 Route::get('/api/en={str}',['uses' => 'HomeController@encrypt']);
