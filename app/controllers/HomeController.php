@@ -31,7 +31,6 @@ class HomeController extends BaseController {
  			'name',
 			'id'
      ])->where('username', '!=', '')
- 		->distinct()
  		->get();
     $users = (object) $users;
 
