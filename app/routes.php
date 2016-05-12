@@ -18,8 +18,8 @@ Route::get('/', function()
 Route::post('/api/user:{user}/password:{password}',['uses' => 'HomeController@login']);
 Route::post('/api/user:{user}/password:{password}/name:{name}',['uses' => 'HomeController@register']);
 
-Route::post('api/sender:{sender_id}/receiver:{receiver_id}/msg:{msg}',['uses' => 'HomeController@sendMessage']);
-Route::post('api/user_id:{user}',['uses' => 'HomeController@getMessages']);
+Route::post('/api/sender:{sender_id}/receiver:{receiver_id}/msg:{msg}',['uses' => 'HomeController@sendMessage']);
+Route::post('/api/user_id:{user}',['uses' => 'HomeController@getMessages']);
 
 //APIS for testing and DB control
 Route::get('/api/en={str}',['uses' => 'HomeController@encrypt']);
